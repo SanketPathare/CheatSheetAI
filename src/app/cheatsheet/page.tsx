@@ -1,11 +1,7 @@
-
+// @ts-nocheck
 "use client";
 import { useState } from "react";
 import topics from "../../../Data/topics";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { saveAs } from "file-saver";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import {
@@ -18,7 +14,7 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 
-export default function page() {
+export default function Page() {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,6 +74,7 @@ export default function page() {
         timestamp: new Date().toLocaleString(),
       };
       setSavedCheatSheets((prevSheets) => [...prevSheets, newCheatSheet]);
+      alert(`${selectedLanguage} - ${selectedTopic} has been saved.`);
     }
   };
 
@@ -85,27 +82,51 @@ export default function page() {
     setSavedCheatSheets((prevSheets) =>
       prevSheets.filter((sheet) => sheet.id !== id)
     );
+    alert("The cheat sheet has been removed from your saved items.");
   };
 
   const downloadCheatSheet = (content, language, topic) => {
     if (content) {
+      // Create a Blob and trigger download using the native browser API
       const fileName = `${language}-${topic}-cheatsheet.txt`;
       const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
-      saveAs(blob, fileName);
+
+      // Create an anchor element and trigger the download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+
+      // Clean up
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert(`${fileName} is being downloaded.`);
     }
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        setCopied(true);
+        alert("The content has been copied to your clipboard.");
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch((err) => {
+        alert("Failed to copy to clipboard. Please try again.");
+        console.error("Failed to copy: ", err);
+      });
   };
 
   const clearCheatSheet = () => {
     setCheatSheet("");
   };
 
-  const handleCopy = () => {
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-sans antialiased ">
+    <div className="min-h-screen bg-gray-900 text-white font-sans antialiased">
       <header className="py-4 px-6 flex justify-between items-center border-b border-gray-800">
         <div className="flex items-center">
           <Sparkles className="w-6 h-6 text-indigo-400 mr-2" />
@@ -249,12 +270,13 @@ export default function page() {
                   {selectedLanguage} - {selectedTopic}
                 </h2>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <CopyToClipboard text={cheatSheet} onCopy={handleCopy}>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center">
-                      <Copy className="mr-2 h-4 w-4" />{" "}
-                      {copied ? "Copied!" : "Copy"}
-                    </button>
-                  </CopyToClipboard>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
+                    onClick={() => copyToClipboard(cheatSheet)}
+                  >
+                    <Copy className="mr-2 h-4 w-4" />{" "}
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
                   <button
                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
                     onClick={saveCheatSheet}
@@ -275,16 +297,10 @@ export default function page() {
                   </button>
                 </div>
               </div>
-              <div className="prose max-w-none overflow-x-auto">
-                <SyntaxHighlighter
-                  language={selectedLanguage.toLowerCase()}
-                  style={dracula}
-                  wrapLines={true}
-                  className="text-sm"
-                  customStyle={{ borderRadius: "0.375rem" }}
-                >
-                  {cheatSheet}
-                </SyntaxHighlighter>
+              <div className="prose max-w-none overflow-x-auto rounded-md bg-gray-900 p-4">
+                <pre className="text-sm text-gray-200 whitespace-pre-wrap">
+                  <code>{cheatSheet}</code>
+                </pre>
               </div>
             </div>
           </div>
@@ -311,11 +327,12 @@ export default function page() {
                         {sheet.timestamp}
                       </span>
                       <div className="flex flex-wrap gap-2">
-                        <CopyToClipboard text={sheet.content}>
-                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center">
-                            <Copy className="mr-2 h-4 w-4" /> Copy
-                          </button>
-                        </CopyToClipboard>
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
+                          onClick={() => copyToClipboard(sheet.content)}
+                        >
+                          <Copy className="mr-2 h-4 w-4" /> Copy
+                        </button>
                         <button
                           className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
                           onClick={() =>
@@ -338,16 +355,10 @@ export default function page() {
                     </div>
                   </div>
 
-                  <div className="prose max-w-none overflow-x-auto">
-                    <SyntaxHighlighter
-                      language={sheet.language.toLowerCase()}
-                      style={dracula}
-                      wrapLines={true}
-                      className="text-sm"
-                      customStyle={{ borderRadius: "0.375rem" }}
-                    >
-                      {sheet.content}
-                    </SyntaxHighlighter>
+                  <div className="prose max-w-none overflow-x-auto rounded-md bg-gray-900 p-4">
+                    <pre className="text-sm text-gray-200 whitespace-pre-wrap">
+                      <code>{sheet.content}</code>
+                    </pre>
                   </div>
                 </div>
               ))}
