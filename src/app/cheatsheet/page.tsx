@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 import { formatCode, highlightCode } from "@/app/components/formatCode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Page() {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
@@ -45,6 +48,7 @@ export default function Page() {
   const generateCheatSheet = async () => {
     if (!selectedLanguage || !selectedTopic) {
       setError("Please select both a language and a topic.");
+      toast.error("Please select both a language and a topic."); // Using react-toastify
       return;
     }
 
@@ -78,6 +82,7 @@ export default function Page() {
     } catch (err) {
       console.error("Error generating cheat sheet:", err);
       setError(err.message || "An unexpected error occurred.");
+      toast.error(err.message || "An unexpected error occurred."); // Using react-toastify
     } finally {
       setLoading(false);
     }
@@ -96,7 +101,7 @@ export default function Page() {
         timestamp: new Date().toLocaleString(),
       };
       setSavedCheatSheets((prevSheets) => [...prevSheets, newCheatSheet]);
-      alert(`${selectedLanguage} - ${selectedTopic} has been saved.`);
+      toast.success(`${selectedLanguage} - ${selectedTopic} has been saved.`); // Using react-toastify
     }
   };
 
@@ -104,7 +109,7 @@ export default function Page() {
     setSavedCheatSheets((prevSheets) =>
       prevSheets.filter((sheet) => sheet.id !== id)
     );
-    alert("The cheat sheet has been removed from your saved items.");
+    toast.success("The cheat sheet has been removed from your saved items."); // Using react-toastify
   };
 
   /* downloadCheatSheet */
@@ -123,7 +128,7 @@ export default function Page() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert(`${fileName} is being downloaded.`);
+      toast.info(`${fileName} is being downloaded.`); // Using react-toastify
     }
   };
 
@@ -134,11 +139,11 @@ export default function Page() {
       .writeText(text)
       .then(() => {
         setCopied(true);
-        alert("The content has been copied to your clipboard.");
+        toast.success("The content has been copied to your clipboard."); // Using react-toastify
         setTimeout(() => setCopied(false), 2000);
       })
       .catch((err) => {
-        alert("Failed to copy to clipboard. Please try again.");
+        toast.error("Failed to copy to clipboard. Please try again."); // Using react-toastify
         console.error("Failed to copy: ", err);
       });
   };
@@ -150,6 +155,19 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white font-sans antialiased">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        className="text-sm"
+      />
       <header className="py-4 px-6 flex justify-between items-center border-b border-gray-800">
         <div className="flex items-center">
           <Sparkles className="w-6 h-6 text-indigo-400 mr-2" />
