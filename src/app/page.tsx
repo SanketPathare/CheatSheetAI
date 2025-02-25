@@ -49,11 +49,11 @@ const Home = () => {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-5xl font-extrabold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
             AI Cheat Sheet Generator
           </h1>
 
-          <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto">
             Create beautiful, customized cheat sheets for any topic in seconds
             with our AI-powered platform.
           </p>
@@ -61,18 +61,19 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 md:mb-12">
             <Link
               href="/cheatsheet"
-              className="px-8 py-4 mx-7 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm md:text-md transition-colors shadow-lg hover:shadow-xl flex items-center justify-center"
+              className="px-6 py-3 md:px-8 md:py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm md:text-md transition-colors shadow-lg hover:shadow-xl flex items-center justify-center"
             >
               Create Your Cheat Sheet{" "}
               <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
             </Link>
           </div>
+
           {/* Preview Image */}
           <div className="rounded-lg overflow-hidden shadow-2xl shadow-indigo-500/20 border border-gray-800 max-w-4xl mx-auto">
             <img
               src="/hero.png"
               alt="hero-img"
-              className="w-full object-cover "
+              className="w-full object-cover"
             />
           </div>
         </div>
@@ -139,4 +140,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
