@@ -176,7 +176,7 @@ export default function Page() {
             CheatSheetAI
           </Link>
         </div>
-        <nav>
+        <nav className="hidden lg:block">
           <ul className="flex space-x-6">
             <li>
               <Link
