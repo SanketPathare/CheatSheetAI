@@ -6,7 +6,7 @@ const featureData = [
       icon: FileText,
       title: "Custom Templates",
       description:
-        "Choose from dozens of professionally designed templates or create your own custom layout.",
+        "Choose from dozens of professionally designed templates.",
     },
     {
       id: 2,
