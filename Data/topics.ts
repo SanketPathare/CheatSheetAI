@@ -202,7 +202,225 @@ const topics = {
     "Testing",
     "Performance Optimization",
   ],
+  DevOps: [
+    "Docker",
+    "Kubernetes",
+    "CI/CD",
+    "Infrastructure as Code",
+    "Monitoring",
+  ],
 
+  AWS: ["Lambda", "S3", "EC2", "DynamoDB", "CloudFormation"],
+
+  Azure: [
+    "Azure Functions",
+    "Cosmos DB",
+    "Virtual Machines",
+    "App Service",
+    "Azure DevOps",
+  ],
+
+  GraphQL: ["Schemas", "Resolvers", "Apollo", "Subscriptions", "Federation"],
+
+  Testing: ["Jest", "Cypress", "Mocha", "TDD", "E2E Testing"],
+
+  Security: [
+    "Authentication",
+    "Authorization",
+    "OWASP",
+    "Encryption",
+    "Penetration Testing",
+  ],
+
+  WebAssembly: [
+    "Rust to WASM",
+    "Performance Optimization",
+    "Browser Integration",
+    "Tools",
+    "Use Cases",
+  ],
+
+  MachineLearning: [
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn",
+    "Neural Networks",
+    "Natural Language Processing",
+  ],
+
+  DataScience: [
+    "Pandas",
+    "NumPy",
+    "Data Visualization",
+    "Jupyter",
+    "Statistical Analysis",
+  ],
+
+  MobileAppDevelopment: [
+    "React Native",
+    "Ionic",
+    "PWA",
+    "App Store Optimization",
+    "Cross-platform Development",
+  ],
+
+  BlockchainDevelopment: [
+    "Smart Contracts",
+    "Ethereum",
+    "Solidity",
+    "Web3.js",
+    "Decentralized Applications",
+  ],
+
+  VR_AR: ["Unity", "A-Frame", "Three.js", "WebXR", "Spatial Computing"],
+
+  IoT: ["Arduino", "Raspberry Pi", "MQTT", "Sensors", "Edge Computing"],
+
+  AgileMethodologies: [
+    "Scrum",
+    "Kanban",
+    "Sprint Planning",
+    "Retrospectives",
+    "Story Points",
+  ],
+
+  UIDesign: [
+    "Figma",
+    "User Research",
+    "Prototyping",
+    "Accessibility",
+    "Design Systems",
+  ],
+
+  Firebase: [
+    "Firestore",
+    "Authentication",
+    "Cloud Functions",
+    "Realtime Database",
+    "Hosting",
+  ],
+
+  Svelte: [
+    "Reactivity",
+    "Stores",
+    "Transitions",
+    "SvelteKit",
+    "Component Composition",
+  ],
+
+  Vue: ["Vue 3", "Composition API", "Vuex", "Vue Router", "Nuxt.js"],
+
+  Angular: ["Components", "Services", "RxJS", "NgRx", "Angular Universal"],
+
+  Linux: [
+    "Shell Scripting",
+    "System Administration",
+    "Networking",
+    "Security",
+    "Performance Tuning",
+  ],
+
+  Git: [
+    "Branching Strategies",
+    "Rebasing",
+    "Hooks",
+    "GitHub Actions",
+    "GitLab CI",
+  ],
+
+  SoftwareArchitecture: [
+    "Microservices",
+    "Domain-Driven Design",
+    "SOLID Principles",
+    "Event-Driven Architecture",
+    "Clean Architecture",
+  ],
+
+  DataVisualization: ["D3.js", "Chart.js", "Tableau", "Plotly", "WebGL"],
+
+  Serverless: [
+    "AWS Lambda",
+    "Azure Functions",
+    "Google Cloud Functions",
+    "Cold Starts",
+    "Event-Driven Architecture",
+  ],
+
+  QualityAssurance: [
+    "Unit Testing",
+    "Integration Testing",
+    "Performance Testing",
+    "Accessibility Testing",
+    "Test Automation",
+  ],
+
+  CloudNative: [
+    "Containers",
+    "Service Mesh",
+    "Observability",
+    "GitOps",
+    "Serverless",
+  ],
+
+  APIDesign: ["REST", "GraphQL", "gRPC", "OpenAPI", "API Gateway"],
+
+  PerformanceOptimization: [
+    "Caching",
+    "Lazy Loading",
+    "Code Splitting",
+    "Network Optimization",
+    "Memory Management",
+  ],
+
+  Databases: [
+    "Relational",
+    "NoSQL",
+    "NewSQL",
+    "Time Series",
+    "Graph Databases",
+  ],
+
+  Embedded: [
+    "Real-time Systems",
+    "Firmware",
+    "RTOS",
+    "Low-level Programming",
+    "Hardware Interfaces",
+  ],
+
+  GameDevelopment: [
+    "Unity",
+    "Unreal Engine",
+    "Godot",
+    "Game Physics",
+    "AI for Games",
+  ],
+
+  WebRTC: [
+    "Signaling",
+    "Peer Connection",
+    "Media Streaming",
+    "Data Channels",
+    "NAT Traversal",
+  ],
+
+  ContainerOrchestration: [
+    "Kubernetes",
+    "Docker Swarm",
+    "Nomad",
+    "Helm",
+    "Service Discovery",
+  ],
+
+  StaticSiteGenerators: ["Gatsby", "Next.js", "Hugo", "Eleventy", "Jekyll"],
+
+  PWA: [
+    "Service Workers",
+    "Offline Support",
+    "Push Notifications",
+    "App Shell Architecture",
+    "Installable Web Apps",
+  ],
 };
 
 export default topics;

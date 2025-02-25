@@ -1,19 +1,55 @@
+"use client";
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
-const page = () => {
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.2,
+    },
+  },
+};
+
+const Page = () => {
   return (
-    <div className="bg-gray-900">
+    <motion.div
+      className="bg-gray-900"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       <Navbar />
       <main className="container mx-auto py-12 px-4 md:px-8 lg:px-12 bg-gray-900">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-extrabold text-gray-200 mb-6">
+          <motion.h1
+            className="text-3xl lg:text-4xl font-extrabold text-gray-200 mb-6 text-center"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             About AI Cheat Sheet Generator
-          </h1>
+          </motion.h1>
 
-          <div className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8">
-            <h2 className="text-xl font-semibold text-gray-100 mb-4">
+          <motion.div
+            className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <h2 className="text-xl font-semibold text-white mb-4">
               Our Mission
             </h2>
             <p className="text-gray-300 leading-relaxed mb-4">
@@ -28,9 +64,14 @@ const page = () => {
               learners quickly grasp key concepts, review essential information,
               and improve their understanding of various subjects.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8">
+          <motion.div
+            className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <h2 className="text-xl font-semibold text-gray-200 mb-4">
               How it Works
             </h2>
@@ -48,9 +89,14 @@ const page = () => {
               algorithms and update our knowledge base to ensure the accuracy
               and relevance of our cheat sheets.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8">
+          <motion.div
+            className="bg-indigo-900/30  rounded-lg shadow-md p-6 md:p-8 mb-8"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <h2 className="text-xl font-semibold text-gray-100 mb-4">
               Our Team
             </h2>
@@ -64,9 +110,14 @@ const page = () => {
               We believe in the power of AI to transform education and are
               excited to be at the forefront of this revolution.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-indigo-900/30 rounded-lg shadow-md p-6 md:p-8 mb-8">
+          <motion.div
+            className="bg-indigo-900/30 rounded-lg shadow-md p-6 md:p-8 mb-8"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <h2 className="text-xl font-semibold text-gray-100 mb-4">
               Contact Us
             </h2>
@@ -78,17 +129,17 @@ const page = () => {
               Email:{" "}
               <a
                 href="mailto:sanketpathare8808@gmail.com"
-                className="text-indigo-400 hover:text-indigo-300 underline decoration-white "
+                className="text-indigo-400 hover:text-indigo-300 underline "
               >
                 sanketpathare8808@gmail.com
               </a>
             </p>
-          </div>
+          </motion.div>
         </div>
       </main>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
-export default page;
+export default Page;

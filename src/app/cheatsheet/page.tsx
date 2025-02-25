@@ -13,258 +13,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Footer from "../components/Footer";
-// @ts-ignore
-import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-sql";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-markup"; // for HTML
-
-// Language map for Prism.js
-const LANGUAGE_MAP = {
-  javascript: "javascript",
-  typescript: "typescript",
-  js: "javascript",
-  ts: "typescript",
-  python: "python",
-  py: "python",
-  html: "markup",
-  css: "css",
-  sql: "sql",
-  json: "json",
-};
-
-// Helper function to highlight code using Prism.js
-const highlightCode = (code, language) => {
-  if (!code) return "";
-
-  const prismLanguage = LANGUAGE_MAP[language?.toLowerCase()] || "javascript";
-
-  try {
-    return Prism.highlight(code, Prism.languages[prismLanguage], prismLanguage);
-  } catch (error) {
-    console.error("Error highlighting code:", error);
-    return code; // Return original code if highlighting fails
-  }
-};
-
-// Helper function to format code snippets (optional, but improves readability)
-const formatCode = (code, language) => {
-  try {
-    if (!code) return "";
-    const lang = language?.toLowerCase();
-
-    switch (lang) {
-      case "javascript":
-      case "typescript":
-      case "js":
-      case "ts":
-        return formatJavaScript(code);
-      case "python":
-      case "py":
-        return formatPython(code);
-      case "html":
-        return formatHTML(code);
-      case "css":
-        return formatCSS(code);
-      case "sql":
-        return formatSQL(code);
-      case "json":
-        return formatJSON(code);
-      default:
-        // Apply basic indentation for unsupported languages
-        return applyBasicFormatting(code);
-    }
-  } catch (error) {
-    console.error("Error formatting code:", error);
-    return code; // Return original code if formatting fails
-  }
-};
-
-// Helper formatting functions
-const formatJavaScript = (code) => {
-  try {
-    if (code.trim().startsWith("{") && code.trim().endsWith("}")) {
-      const parsed = JSON.parse(code);
-      return JSON.stringify(parsed, null, 2);
-    }
-  } catch (e) {
-    // Not valid JSON, continue with basic formatting
-  }
-  return applyBasicFormatting(code);
-};
-
-const formatPython = (code) => {
-  let lines = code.split("\n").map((line) => line.trimRight());
-  let result = "";
-  let indentLevel = 0;
-  const indentSize = 4;
-
-  for (const line of lines) {
-    let trimmedLine = line.trim();
-    if (
-      trimmedLine.startsWith("}") ||
-      trimmedLine.startsWith(")") ||
-      trimmedLine.startsWith("]") ||
-      trimmedLine.startsWith("else:") ||
-      trimmedLine.startsWith("elif ") ||
-      trimmedLine.startsWith("except ") ||
-      trimmedLine.startsWith("finally:")
-    ) {
-      indentLevel = Math.max(0, indentLevel - 1);
-    }
-
-    const indent = " ".repeat(indentLevel * indentSize);
-    result += indent + trimmedLine + "\n";
-
-    if (
-      trimmedLine.endsWith(":") ||
-      (trimmedLine.endsWith("{") && !trimmedLine.includes("}")) ||
-      (trimmedLine.endsWith("(") && !trimmedLine.includes(")")) ||
-      (trimmedLine.endsWith("[") && !trimmedLine.includes("]"))
-    ) {
-      indentLevel++;
-    }
-  }
-
-  return result.trim();
-};
-
-const formatHTML = (code) => applyBasicFormatting(code);
-
-const formatCSS = (code) => {
-  let formatted = "";
-  const parts = code.split("}");
-
-  for (let part of parts) {
-    if (!part.trim()) continue;
-
-    const ruleParts = part.split("{");
-    if (ruleParts.length === 2) {
-      const selector = ruleParts[0].trim();
-      const styles = ruleParts[1].trim();
-
-      formatted += selector + " {\n";
-
-      const styleProps = styles.split(";");
-      for (let prop of styleProps) {
-        if (prop.trim()) {
-          const [name, value] = prop.split(":");
-          if (name && value) {
-            formatted += `  ${name.trim()}: ${value.trim()};\n`;
-          }
-        }
-      }
-
-      formatted += "}\n\n";
-    } else {
-      formatted += part + "}\n";
-    }
-  }
-
-  return formatted.trim();
-};
-
-const formatSQL = (code) => {
-  const keywords = [
-    "SELECT",
-    "FROM",
-    "WHERE",
-    "JOIN",
-    "LEFT JOIN",
-    "RIGHT JOIN",
-    "INNER JOIN",
-    "GROUP BY",
-    "ORDER BY",
-    "HAVING",
-    "LIMIT",
-    "INSERT INTO",
-    "VALUES",
-    "UPDATE",
-    "SET",
-    "DELETE",
-    "CREATE",
-    "ALTER",
-    "DROP",
-    "TABLE",
-    "INDEX",
-    "VIEW",
-    "DATABASE",
-  ];
-
-  let formatted = code;
-
-  for (const keyword of keywords) {
-    const regex = new RegExp(`\\b${keyword}\\b`, "gi");
-    formatted = formatted.replace(regex, keyword);
-  }
-
-  for (const keyword of [
-    "FROM",
-    "WHERE",
-    "JOIN",
-    "LEFT JOIN",
-    "RIGHT JOIN",
-    "INNER JOIN",
-    "GROUP BY",
-    "ORDER BY",
-    "HAVING",
-    "LIMIT",
-  ]) {
-    const regex = new RegExp(`\\b${keyword}\\b`, "g");
-    formatted = formatted.replace(regex, `\n${keyword}`);
-  }
-
-  return formatted;
-};
-
-const formatJSON = (code) => {
-  try {
-    const parsed = JSON.parse(code);
-    return JSON.stringify(parsed, null, 2);
-  } catch (e) {
-    console.error("Invalid JSON:", e);
-    return code;
-  }
-};
-
-const applyBasicFormatting = (code) => {
-  let result = "";
-  let indentLevel = 0;
-  const indentSize = 2;
-
-  const lines = code.split("\n");
-
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
-
-    if (line.startsWith("}") || line.startsWith(")") || line.startsWith("]")) {
-      indentLevel = Math.max(0, indentLevel - 1);
-    }
-
-    const indent = " ".repeat(indentLevel * indentSize);
-    result += indent + line + "\n";
-
-    const openCount = (line.match(/{|\(|\[/g) || []).length;
-    const closeCount = (line.match(/}|\)|\]/g) || []).length;
-
-    indentLevel += openCount - closeCount;
-
-    if (
-      openCount > closeCount &&
-      (line.includes("}") || line.includes(")") || line.includes("]"))
-    ) {
-      indentLevel++;
-    }
-  }
-
-  return result.trim();
-};
-
+import { formatCode, highlightCode } from "@/app/components/formatCode";
 export default function Page() {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
@@ -277,6 +26,9 @@ export default function Page() {
   const [copied, setCopied] = useState(false);
   const codeRef = useRef(null);
 
+  {
+    /* Language Selection */
+  }
   useEffect(() => {
     if (cheatSheet && selectedLanguage) {
       try {
@@ -289,6 +41,7 @@ export default function Page() {
     }
   }, [cheatSheet, selectedLanguage]);
 
+  // generateCheatSheet
   const generateCheatSheet = async () => {
     if (!selectedLanguage || !selectedTopic) {
       setError("Please select both a language and a topic.");
@@ -330,6 +83,9 @@ export default function Page() {
     }
   };
 
+  {
+    /* Copy and Save */
+  }
   const saveCheatSheet = () => {
     if (cheatSheet) {
       const newCheatSheet = {
@@ -351,6 +107,7 @@ export default function Page() {
     alert("The cheat sheet has been removed from your saved items.");
   };
 
+  /* downloadCheatSheet */
   const downloadCheatSheet = (content, language, topic) => {
     if (content) {
       const fileName = `${language}-${topic}-cheatsheet.txt`;
@@ -369,6 +126,8 @@ export default function Page() {
       alert(`${fileName} is being downloaded.`);
     }
   };
+
+  /*Copy To Clipboard  */
 
   const copyToClipboard = (text) => {
     navigator.clipboard
@@ -488,7 +247,7 @@ export default function Page() {
               className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 resize-none"
               value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
-              placeholder="Add extra instructions for the AI...  e.g., 'Include examples', 'Focus on beginners', 'Explain common pitfalls'"
+              placeholder="Add extra instructions for the AI......."
               rows={3}
             />
           </div>
