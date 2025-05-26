@@ -21,7 +21,7 @@ export async function POST(request: any) {
           content: `Create a cheat sheet for ${language} focusing on ${topic}. Include syntax, common patterns, best practices, and examples.`,
         },
       ],
-      model: "mixtral-8x7b-32768",
+      model: "deepseek-r1-distill-llama-70b",
       temperature: 0.5,
       max_tokens: 2048,
     });
